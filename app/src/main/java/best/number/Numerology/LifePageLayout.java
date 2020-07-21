@@ -1,4 +1,4 @@
-package com.example.namenumerology;
+package best.number.Numerology;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,64 +8,71 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.widget.TextView;
 
+import best.number.Numerology.R;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class HeartsDesirePage extends AppCompatActivity {
+public class LifePageLayout extends AppCompatActivity {
 
-    TextView heartView, explain;
+    TextView pathNum, title, explain;
 
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hearts_desire_page);
+        setContentView(R.layout.activity_life_page_layout);
 
-        heartView = findViewById(R.id.heartView);
+        pathNum = findViewById(R.id.pathNum);
+        title = findViewById(R.id.title);
         explain = findViewById(R.id.explain);
 
         Intent intent = getIntent();
-        int heartNum = intent.getIntExtra("heartsDesire", 0);
+        int lpNum = intent.getIntExtra("LifePathNum", 0);
+        String pathTitle = intent.getStringExtra("pathTitle");
 
-        heartView.setText("Heart's Desire Number " + heartNum);
+        pathNum.setText("Life Path " + lpNum);
+        title.setText(pathTitle);
 
+        //code below will help me access the data in the number_explanations file
         explain.setMovementMethod(new ScrollingMovementMethod());
         String data = "";
         StringBuffer sbuffer = new StringBuffer();
 
         InputStream inStream;
-        switch (heartNum){
+        switch (lpNum){
             case 1:
-                inStream = this.getResources().openRawResource(R.raw.heartone);
+                inStream = this.getResources().openRawResource(R.raw.lifepathone);
                 break;
             case 2:
-                inStream = this.getResources().openRawResource(R.raw.hearttwo);
+                inStream = this.getResources().openRawResource(R.raw.lifepathtwo);
                 break;
             case 3:
-                inStream = this.getResources().openRawResource(R.raw.heartthree);
+                inStream = this.getResources().openRawResource(R.raw.lifepaththree);
                 break;
             case 4:
-                inStream = this.getResources().openRawResource(R.raw.heartfour);
+                inStream = this.getResources().openRawResource(R.raw.lifepathfour);
                 break;
             case 5:
-                inStream = this.getResources().openRawResource(R.raw.heartfive);
+                inStream = this.getResources().openRawResource(R.raw.lifepathfive);
                 break;
             case 6:
-                inStream = this.getResources().openRawResource(R.raw.heartsix);
+                inStream = this.getResources().openRawResource(R.raw.lifepathsix);
                 break;
             case 7:
-                inStream = this.getResources().openRawResource(R.raw.heartseven);
+                inStream = this.getResources().openRawResource(R.raw.lifepathseven);
                 break;
             case 8:
-                inStream = this.getResources().openRawResource(R.raw.hearteight);
+                inStream = this.getResources().openRawResource(R.raw.lifepatheight);
                 break;
             case 9:
-                inStream = this.getResources().openRawResource(R.raw.heartnine);
+                inStream = this.getResources().openRawResource(R.raw.lifepathnine);
                 break;
             default:
-                throw new IllegalStateException("Unexpected value: " + heartNum);
+                throw new IllegalStateException("Unexpected value: " + lpNum);
         }
+        //InputStream inStream = this.getResources().openRawResource(R.raw.yo);
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(inStream));
 

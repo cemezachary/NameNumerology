@@ -1,4 +1,4 @@
-package com.example.namenumerology;
+package best.number.Numerology;
 
 import android.content.Context;
 

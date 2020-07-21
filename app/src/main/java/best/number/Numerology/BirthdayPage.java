@@ -1,4 +1,4 @@
-package com.example.namenumerology;
+package best.number.Numerology;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.widget.TextView;
+
+import best.number.Numerology.R;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

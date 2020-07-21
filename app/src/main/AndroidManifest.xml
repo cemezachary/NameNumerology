@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.namenumerology">
+    package="best.number.Numerology">
 
     <application
         android:allowBackup="true"
@@ -9,13 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".BirthdayPage"></activity>
-        <activity android:name=".HeartsDesirePage" />
-        <activity android:name=".PersonalityPage" />
-        <activity android:name=".ExpressionPage" />
-        <activity android:name=".YourNumbers" />
-        <activity android:name=".LifePageLayout" />
-        <activity android:name=".MainActivity">
+        <activity android:name="best.number.Numerology.BirthdayPage"></activity>
+        <activity android:name="best.number.Numerology.HeartsDesirePage" />
+        <activity android:name="best.number.Numerology.PersonalityPage" />
+        <activity android:name="best.number.Numerology.ExpressionPage" />
+        <activity android:name="best.number.Numerology.YourNumbers" />
+        <activity android:name="best.number.Numerology.LifePageLayout" />
+        <activity android:name="best.number.Numerology.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

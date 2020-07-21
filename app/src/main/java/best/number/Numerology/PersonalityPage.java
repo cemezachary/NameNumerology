@@ -1,4 +1,4 @@
-package com.example.namenumerology;
+package best.number.Numerology;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,63 +8,65 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.widget.TextView;
 
+import best.number.Numerology.R;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class ExpressionPage extends AppCompatActivity {
+public class PersonalityPage extends AppCompatActivity {
 
-    TextView expView, explain;
+    TextView personView, explain;
 
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_expression_page);
+        setContentView(R.layout.activity_personality_page);
 
-        expView = findViewById(R.id.expView);
+        personView = findViewById(R.id.personView);
         explain = findViewById(R.id.explain);
 
         Intent intent = getIntent();
-        int expNum = intent.getIntExtra("expNum", 0);
+        int personNum = intent.getIntExtra("personality", 0);
 
-        expView.setText("Expression Number " + expNum);
+        personView.setText("Personality Number " + personNum);
 
         explain.setMovementMethod(new ScrollingMovementMethod());
         String data = "";
         StringBuffer sbuffer = new StringBuffer();
 
         InputStream inStream;
-        switch (expNum){
+        switch (personNum){
             case 1:
-                inStream = this.getResources().openRawResource(R.raw.expressionone);
+                inStream = this.getResources().openRawResource(R.raw.personalityone);
                 break;
             case 2:
-                inStream = this.getResources().openRawResource(R.raw.expressiontwo);
+                inStream = this.getResources().openRawResource(R.raw.personalitytwo);
                 break;
             case 3:
-                inStream = this.getResources().openRawResource(R.raw.expressionthree);
+                inStream = this.getResources().openRawResource(R.raw.personalitythree);
                 break;
             case 4:
-                inStream = this.getResources().openRawResource(R.raw.expressionfour);
+                inStream = this.getResources().openRawResource(R.raw.personalityfour);
                 break;
             case 5:
-                inStream = this.getResources().openRawResource(R.raw.expressionfive);
+                inStream = this.getResources().openRawResource(R.raw.personalityfive);
                 break;
             case 6:
-                inStream = this.getResources().openRawResource(R.raw.expressionsix);
+                inStream = this.getResources().openRawResource(R.raw.personalitysix);
                 break;
             case 7:
-                inStream = this.getResources().openRawResource(R.raw.expressionseven);
+                inStream = this.getResources().openRawResource(R.raw.personalityseven);
                 break;
             case 8:
-                inStream = this.getResources().openRawResource(R.raw.expressioneight);
+                inStream = this.getResources().openRawResource(R.raw.personalityeight);
                 break;
             case 9:
-                inStream = this.getResources().openRawResource(R.raw.expressionnine);
+                inStream = this.getResources().openRawResource(R.raw.personalitynine);
                 break;
             default:
-                throw new IllegalStateException("Unexpected value: " + expNum);
+                throw new IllegalStateException("Unexpected value: " + personNum);
         }
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(inStream));

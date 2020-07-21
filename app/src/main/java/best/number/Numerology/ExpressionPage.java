@@ -1,4 +1,4 @@
-package com.example.namenumerology;
+package best.number.Numerology;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,70 +8,66 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.widget.TextView;
 
-import java.io.BufferedInputStream;
+import best.number.Numerology.R;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class LifePageLayout extends AppCompatActivity {
+public class ExpressionPage extends AppCompatActivity {
 
-    TextView pathNum, title, explain;
+    TextView expView, explain;
 
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_life_page_layout);
+        setContentView(R.layout.activity_expression_page);
 
-        pathNum = findViewById(R.id.pathNum);
-        title = findViewById(R.id.title);
+        expView = findViewById(R.id.expView);
         explain = findViewById(R.id.explain);
 
         Intent intent = getIntent();
-        int lpNum = intent.getIntExtra("LifePathNum", 0);
-        String pathTitle = intent.getStringExtra("pathTitle");
+        int expNum = intent.getIntExtra("expNum", 0);
 
-        pathNum.setText("Life Path " + lpNum);
-        title.setText(pathTitle);
+        expView.setText("Expression Number " + expNum);
 
-        //code below will help me access the data in the number_explanations file
         explain.setMovementMethod(new ScrollingMovementMethod());
         String data = "";
         StringBuffer sbuffer = new StringBuffer();
 
         InputStream inStream;
-        switch (lpNum){
+        switch (expNum){
             case 1:
-                inStream = this.getResources().openRawResource(R.raw.lifepathone);
+                inStream = this.getResources().openRawResource(R.raw.expressionone);
                 break;
             case 2:
-                inStream = this.getResources().openRawResource(R.raw.lifepathtwo);
+                inStream = this.getResources().openRawResource(R.raw.expressiontwo);
                 break;
             case 3:
-                inStream = this.getResources().openRawResource(R.raw.lifepaththree);
+                inStream = this.getResources().openRawResource(R.raw.expressionthree);
                 break;
             case 4:
-                inStream = this.getResources().openRawResource(R.raw.lifepathfour);
+                inStream = this.getResources().openRawResource(R.raw.expressionfour);
                 break;
             case 5:
-                inStream = this.getResources().openRawResource(R.raw.lifepathfive);
+                inStream = this.getResources().openRawResource(R.raw.expressionfive);
                 break;
             case 6:
-                inStream = this.getResources().openRawResource(R.raw.lifepathsix);
+                inStream = this.getResources().openRawResource(R.raw.expressionsix);
                 break;
             case 7:
-                inStream = this.getResources().openRawResource(R.raw.lifepathseven);
+                inStream = this.getResources().openRawResource(R.raw.expressionseven);
                 break;
             case 8:
-                inStream = this.getResources().openRawResource(R.raw.lifepatheight);
+                inStream = this.getResources().openRawResource(R.raw.expressioneight);
                 break;
             case 9:
-                inStream = this.getResources().openRawResource(R.raw.lifepathnine);
+                inStream = this.getResources().openRawResource(R.raw.expressionnine);
                 break;
             default:
-                throw new IllegalStateException("Unexpected value: " + lpNum);
+                throw new IllegalStateException("Unexpected value: " + expNum);
         }
-        //InputStream inStream = this.getResources().openRawResource(R.raw.yo);
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(inStream));
 

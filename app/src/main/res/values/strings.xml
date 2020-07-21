@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">NameNumerology</string>
+    <string name="calculateName">calculate</string>
+    <string name="enterName">Enter Name</string>
+    <string name="enterBirthday">Enter DOB (mm/dd/yyyy)</string>
+    <string name="coreNumberHeader">Your Core Numbers</string>
+    <string name="usersName">Users Name</string>
+    <string name="usersBirthday">Date of Birth</string>
+    <string name="learnMoreButton">Learn More</string>
 </resources>
