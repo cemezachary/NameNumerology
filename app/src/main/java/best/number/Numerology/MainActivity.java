@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity{
     Hashtable<Character, Integer> set;
     int[] fullList, personList, heartList;
     int expNum, lifePath, personality, heartsDesire, birthDay, masterNum = 0;
+    boolean nameCheck, dateCheck = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,9 +73,7 @@ public class MainActivity extends AppCompatActivity{
         set.put('p', 8);
     }
 
-    @SuppressLint("SetTextI18n")
-    public void convert(View v) {
-        String input = name.getText().toString();
+    private void validateName(String input){
         if (input.length() == 0){
             Toast.makeText(this, "Must input full name", Toast.LENGTH_SHORT).show();
             return;
@@ -83,16 +82,16 @@ public class MainActivity extends AppCompatActivity{
             Toast.makeText(this, "Name must have letter(s)", Toast.LENGTH_SHORT).show();
             return;
         }
-        fullList = new int[input.length()];
-        personList = new int[input.length()];
-        heartList = new int[input.length()];
-        String bdayInput = dob.getText().toString();
-        if (bdayInput.length() == 0){
+        nameCheck = true;
+    }
+
+    private void valiDate(String date){
+        if (date.length() == 0){
             Toast.makeText(this, "Must input date", Toast.LENGTH_SHORT).show();
             return;
         }
-        String[] bday = bdayInput.split("/");
-        if (!bdayInput.contains("/") || bday.length != 3){
+        String[] bday = date.split("/");
+        if (!date.contains("/") || bday.length != 3){
             Toast.makeText(this, "Must input date in mm/dd/yyyy format", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -126,23 +125,38 @@ public class MainActivity extends AppCompatActivity{
             Toast.makeText(this, "Not a leap year (no February 29th)", Toast.LENGTH_SHORT).show();
             return;
         }
+       dateCheck = true;
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void convert(View v) {
+        String input = name.getText().toString();
+        validateName(input);
+        if (!nameCheck) return;
+
+        fullList = new int[input.length()];
+        personList = new int[input.length()];
+        heartList = new int[input.length()];
+
+        String bdayInput = dob.getText().toString();
+        valiDate(bdayInput);
+        if (!dateCheck) return;
+
+        String[] bday = bdayInput.split("/");
         int dateSum = sumDate(bday);
+
         lifePath = naturalAdd(dateSum);
         fullList = breakdown(fullList, input, false, false);
         personList = breakdown(personList, input, true, false);
         heartList = breakdown(heartList, input, true, true);
+
         int totalSum = sumName(fullList);
         int personSum = sumName(personList);
         int heartSum = sumName(heartList);
+
         expNum = naturalAdd(totalSum);
         personality = naturalAdd(personSum);
         heartsDesire = naturalAdd(heartSum);
-
-        /*lifeP.setText("Your Life Path Number is: " + lifePath);
-        exp.setText("Your Expression Number is: " + expNum);
-        person.setText("Your Personality Number is: " + personality);
-        heart.setText("Your Heart's Desire Number is: " + heartsDesire);
-        day.setText("Your Birthday Number is: " + birthDay);*/
 
         Intent intent = new Intent(MainActivity.this,YourNumbers.class);
         intent.putExtra("usersName", input);
