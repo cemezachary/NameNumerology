@@ -11,8 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import best.number.Numerology.R;
-
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class MainActivity extends AppCompatActivity{
@@ -20,9 +19,12 @@ public class MainActivity extends AppCompatActivity{
     EditText name, dob;
     TextView exp, lifeP, day, person, heart;
     Button click;
-    Hashtable<Character, Integer> set;
+    Hashtable<Character, Integer> chaldeanValues;
     int[] fullList, personList, heartList;
-    int expNum, lifePath, personality, heartsDesire, birthDay, masterNum = 0;
+    int expNum, lifePath, personality, heartsDesire, birthDay = 0;
+    int masterLife, masterExp, masterPerson, masterHeart = 0;
+    ArrayList<Integer> calculateNums = new ArrayList<>();
+    ArrayList<ArrayList<Integer>> totalNums = new ArrayList<>();
     boolean nameCheck, dateCheck = false;
 
     @Override
@@ -44,35 +46,83 @@ public class MainActivity extends AppCompatActivity{
 
     //Chaldean numerology system
     public void populate() {
-        set = new Hashtable<>();
-        set.put('a', 1);
-        set.put('i', 1);
-        set.put('j', 1);
-        set.put('q', 1);
-        set.put('y', 1);
-        set.put('b', 2);
-        set.put('k', 2);
-        set.put('r', 2);
-        set.put('c', 3);
-        set.put('g', 3);
-        set.put('l', 3);
-        set.put('s', 3);
-        set.put('d', 4);
-        set.put('m', 4);
-        set.put('t', 4);
-        set.put('e', 5);
-        set.put('h', 5);
-        set.put('n', 5);
-        set.put('x', 5);
-        set.put('u', 6);
-        set.put('v', 6);
-        set.put('w', 6);
-        set.put('o', 7);
-        set.put('z', 7);
-        set.put('f', 8);
-        set.put('p', 8);
+        chaldeanValues = new Hashtable<>();
+        chaldeanValues.put('a', 1);
+        chaldeanValues.put('i', 1);
+        chaldeanValues.put('j', 1);
+        chaldeanValues.put('q', 1);
+        chaldeanValues.put('y', 1);
+        chaldeanValues.put('b', 2);
+        chaldeanValues.put('k', 2);
+        chaldeanValues.put('r', 2);
+        chaldeanValues.put('c', 3);
+        chaldeanValues.put('g', 3);
+        chaldeanValues.put('l', 3);
+        chaldeanValues.put('s', 3);
+        chaldeanValues.put('d', 4);
+        chaldeanValues.put('m', 4);
+        chaldeanValues.put('t', 4);
+        chaldeanValues.put('e', 5);
+        chaldeanValues.put('h', 5);
+        chaldeanValues.put('n', 5);
+        chaldeanValues.put('x', 5);
+        chaldeanValues.put('u', 6);
+        chaldeanValues.put('v', 6);
+        chaldeanValues.put('w', 6);
+        chaldeanValues.put('o', 7);
+        chaldeanValues.put('z', 7);
+        chaldeanValues.put('f', 8);
+        chaldeanValues.put('p', 8);
     }
 
+    @SuppressLint("SetTextI18n")
+    public void convert(View v) {
+        String input = name.getText().toString();
+        validateName(input);
+        if (!nameCheck) return;
+
+        fullList = new int[input.length()];
+        personList = new int[input.length()];
+        heartList = new int[input.length()];
+
+        String bdayInput = dob.getText().toString();
+        valiDate(bdayInput);
+        if (!dateCheck) return;
+
+        String[] bday = bdayInput.split("/");
+        int dateSum = sumDate(bday);
+
+        lifePath = naturalAdd(dateSum);
+        fullList = breakdown(fullList, input, false, false);
+        personList = breakdown(personList, input, true, false);
+        heartList = breakdown(heartList, input, true, true);
+
+        int totalSum = sumName(fullList);
+        int personSum = sumName(personList);
+        int heartSum = sumName(heartList);
+
+        expNum = naturalAdd(totalSum);
+        personality = naturalAdd(personSum);
+        heartsDesire = naturalAdd(heartSum);
+        masterNumCheck(totalNums);
+
+        Intent intent = new Intent(MainActivity.this,YourNumbers.class);
+        intent.putExtra("usersName", input);
+        intent.putExtra("dateOfBirth", bdayInput);
+        intent.putExtra("lifePathNumber", lifePath);
+        intent.putExtra("expressionNumber", expNum);
+        intent.putExtra("personalityNumber", personality);
+        intent.putExtra("heartsDesireNumber", heartsDesire);
+        intent.putExtra("birthdayNumber", birthDay);
+        intent.putExtra("masterLifeNumber", masterLife);
+        intent.putExtra("masterExpNumber", masterExp);
+        intent.putExtra("masterPersonNumber", masterPerson);
+        intent.putExtra("masterHeartNumber", masterHeart);
+        System.out.println(totalNums);
+        startActivity(intent);
+    }
+
+    //region Validations
     private void validateName(String input){
         if (input.length() == 0){
             Toast.makeText(this, "Must input full name", Toast.LENGTH_SHORT).show();
@@ -125,49 +175,39 @@ public class MainActivity extends AppCompatActivity{
             Toast.makeText(this, "Not a leap year (no February 29th)", Toast.LENGTH_SHORT).show();
             return;
         }
-       dateCheck = true;
+        dateCheck = true;
+    }
+    //endregion
+
+    private void populateTotalNums(int num){
+        ArrayList<Integer> test;
+        calculateNums.add(num);
+
+        if (countDigits(num) == 1){
+            calculateNums.add(num);
+            test = (ArrayList<Integer>) calculateNums.clone();
+            totalNums.add(test);
+            calculateNums.clear();
+        }
     }
 
-    @SuppressLint("SetTextI18n")
-    public void convert(View v) {
-        String input = name.getText().toString();
-        validateName(input);
-        if (!nameCheck) return;
 
-        fullList = new int[input.length()];
-        personList = new int[input.length()];
-        heartList = new int[input.length()];
-
-        String bdayInput = dob.getText().toString();
-        valiDate(bdayInput);
-        if (!dateCheck) return;
-
-        String[] bday = bdayInput.split("/");
-        int dateSum = sumDate(bday);
-
-        lifePath = naturalAdd(dateSum);
-        fullList = breakdown(fullList, input, false, false);
-        personList = breakdown(personList, input, true, false);
-        heartList = breakdown(heartList, input, true, true);
-
-        int totalSum = sumName(fullList);
-        int personSum = sumName(personList);
-        int heartSum = sumName(heartList);
-
-        expNum = naturalAdd(totalSum);
-        personality = naturalAdd(personSum);
-        heartsDesire = naturalAdd(heartSum);
-
-        Intent intent = new Intent(MainActivity.this,YourNumbers.class);
-        intent.putExtra("usersName", input);
-        intent.putExtra("dateOfBirth", bdayInput);
-        intent.putExtra("lifePathNumber", lifePath);
-        intent.putExtra("expressionNumber", expNum);
-        intent.putExtra("personalityNumber", personality);
-        intent.putExtra("heartsDesireNumber", heartsDesire);
-        intent.putExtra("birthdayNumber", birthDay);
-        //intent.putExtra("masterNumber", masterNum);
-        startActivity(intent);
+    private void masterNumCheck(ArrayList<ArrayList<Integer>> list){
+        for (int i = 0; i < list.size(); i++){
+            for (int j = 0; j < list.get(i).size(); j++){
+                int value = list.get(i).get(j);
+                if (countDigits(value) == 2){
+                    String number = String.valueOf(value);
+                    char[] digits = number.toCharArray();
+                    if (digits[0] == digits[1]){
+                        if (i == 0) masterLife = value;
+                        if (i == 1) masterExp = value;
+                        if (i == 2) masterPerson = value;
+                        if (i == 3) masterHeart = value;
+                    }
+                }
+            }
+        }
     }
 
     public int sumDate(String[] dob){
@@ -183,10 +223,9 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public int naturalAdd(int num){
-        /*if (num == 11 || num == 22 || num == 33){
-            masterNum = num;
-        }*/
+        populateTotalNums(num);
         int val;
+        //System.out.println(masterNum);
         int n = num % 10;
         if (n == num){
             return num;
@@ -212,16 +251,16 @@ public class MainActivity extends AppCompatActivity{
             if (Character.isUpperCase(c)) c = Character.toLowerCase(c);
             if (!Character.isLetter(c)) continue;
             if (!vowelCheck) {
-                int letVal = set.get(c);
+                int letVal = chaldeanValues.get(c);
                 list[i] = letVal;
             }
             else{
                 if (!vowelLookup(c) && !vowelHeart){
-                    int letVal = set.get(c);
+                    int letVal = chaldeanValues.get(c);
                     list[i] = letVal;
                 }
                 if (vowelLookup(c) && vowelHeart){
-                    int letVal = set.get(c);
+                    int letVal = chaldeanValues.get(c);
                     list[i] = letVal;
                 }
             }
@@ -230,10 +269,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public boolean vowelLookup(char letter){
-        if (letter == 'a' || letter == 'e' || letter == 'i' || letter == 'o' || letter == 'u'){
-            return true;
-        }
-        return false;
+        return letter == 'a' || letter == 'e' || letter == 'i' || letter == 'o' || letter == 'u';
     }
 
     //validity check for year input
@@ -246,6 +282,7 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
+
     public boolean hasLetter(String name){
         boolean letterPresent;
         for (int i = 0; i < name.length(); i++){
@@ -257,9 +294,6 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public boolean leapYearTest(int year){
-        if (year % 4 == 0 || (year % 100 == 0 && year % 400 == 0)){
-            return true;
-        }
-        return false;
+        return year % 4 == 0 || (year % 100 == 0 && year % 400 == 0);
     }
 }

@@ -16,7 +16,7 @@ import java.util.Hashtable;
 public class YourNumbers extends AppCompatActivity implements View.OnClickListener {
 
     TextView fullName, birthDay, lifeP, exp, day, person, heart;
-    int lifePath, expNum, personality, heartsDesire, dayNum, masterNum;
+    int lifePath, expNum, personality, heartsDesire, dayNum, masterLife, masterExp, masterPerson, masterHeart;
     Hashtable<Integer, String> lifePathDesc;
     Button buttonLP, expButton, personButton, heartButton, dayButton;
 
@@ -50,15 +50,43 @@ public class YourNumbers extends AppCompatActivity implements View.OnClickListen
         personality = intent.getIntExtra("personalityNumber", 0);
         heartsDesire = intent.getIntExtra("heartsDesireNumber", 0);
         dayNum = intent.getIntExtra("birthdayNumber", 0);
-        //masterNum = intent.getIntExtra("masterNumber",0);
+        masterLife = intent.getIntExtra("masterLifeNumber", 0);
+        masterExp = intent.getIntExtra("masterExpNumber", 0);
+        masterPerson = intent.getIntExtra("masterPersonNumber", 0);
+        masterHeart = intent.getIntExtra("masterHeartNumber", 0);
 
         //Display the user's information
         fullName.setText(nameVal);
         birthDay.setText(dobVal);
-        lifeP.setText("Your Life Path Number is: " + lifePath);
-        exp.setText("Your Expression Number is: " + expNum);
-        person.setText("Your Personality Number is: " + personality);
-        heart.setText("Your Heart's Desire Number is: " + heartsDesire);
+
+        if (masterLife != 0){
+            lifeP.setText("Your Life Path Number is: " + masterLife + "/" + lifePath);
+        }
+        else{
+            lifeP.setText("Your Life Path Number is: " + lifePath);
+        }
+
+        if (masterExp != 0){
+            exp.setText("Your Expression Number is: " + masterExp + "/" + expNum);
+        }
+        else{
+            exp.setText("Your Expression Number is: " + expNum);
+        }
+
+        if (masterPerson != 0){
+            person.setText("Your Personality Number is: " + masterPerson + "/" + personality);
+        }
+        else{
+            person.setText("Your Personality Number is: " + personality);
+        }
+
+        if (masterHeart != 0){
+            heart.setText("Your Heart's Desire Number is: " + masterHeart + "/" + heartsDesire);
+        }
+        else{
+            heart.setText("Your Heart's Desire Number is: " + heartsDesire);
+        }
+
         day.setText("Your Birthday Number is: " + dayNum);
 
         buttonLP.setOnClickListener(this);
@@ -123,7 +151,7 @@ public class YourNumbers extends AppCompatActivity implements View.OnClickListen
         startActivity(inLife);
     }*/
 
-    /**
+    /*
      * Create 5 buttons and each of them will have their own method
      * might have to make a new hashtable for each
      */
